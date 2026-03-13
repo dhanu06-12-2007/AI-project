@@ -1,0 +1,229 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyMUh/gQzBaK7ff3wKbvYXLW",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/dhanu06-12-2007/AI-project/blob/main/artificial%20intelligence\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 1,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "FhADAFA6k3YD",
+        "outputId": "0e713877-be5a-4e08-f69d-e82113e7952a"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Collecting pgmpy\n",
+            "  Downloading pgmpy-1.0.0-py3-none-any.whl.metadata (9.4 kB)\n",
+            "Requirement already satisfied: networkx in /usr/local/lib/python3.12/dist-packages (from pgmpy) (3.6.1)\n",
+            "Requirement already satisfied: numpy in /usr/local/lib/python3.12/dist-packages (from pgmpy) (2.0.2)\n",
+            "Requirement already satisfied: scipy in /usr/local/lib/python3.12/dist-packages (from pgmpy) (1.16.3)\n",
+            "Requirement already satisfied: scikit-learn in /usr/local/lib/python3.12/dist-packages (from pgmpy) (1.6.1)\n",
+            "Requirement already satisfied: pandas in /usr/local/lib/python3.12/dist-packages (from pgmpy) (2.2.2)\n",
+            "Requirement already satisfied: torch in /usr/local/lib/python3.12/dist-packages (from pgmpy) (2.10.0+cpu)\n",
+            "Requirement already satisfied: statsmodels in /usr/local/lib/python3.12/dist-packages (from pgmpy) (0.14.6)\n",
+            "Requirement already satisfied: tqdm in /usr/local/lib/python3.12/dist-packages (from pgmpy) (4.67.3)\n",
+            "Requirement already satisfied: joblib in /usr/local/lib/python3.12/dist-packages (from pgmpy) (1.5.3)\n",
+            "Requirement already satisfied: opt-einsum in /usr/local/lib/python3.12/dist-packages (from pgmpy) (3.4.0)\n",
+            "Collecting pyro-ppl (from pgmpy)\n",
+            "  Downloading pyro_ppl-1.9.1-py3-none-any.whl.metadata (7.8 kB)\n",
+            "Requirement already satisfied: python-dateutil>=2.8.2 in /usr/local/lib/python3.12/dist-packages (from pandas->pgmpy) (2.9.0.post0)\n",
+            "Requirement already satisfied: pytz>=2020.1 in /usr/local/lib/python3.12/dist-packages (from pandas->pgmpy) (2025.2)\n",
+            "Requirement already satisfied: tzdata>=2022.7 in /usr/local/lib/python3.12/dist-packages (from pandas->pgmpy) (2025.3)\n",
+            "Collecting pyro-api>=0.1.1 (from pyro-ppl->pgmpy)\n",
+            "  Downloading pyro_api-0.1.2-py3-none-any.whl.metadata (2.5 kB)\n",
+            "Requirement already satisfied: filelock in /usr/local/lib/python3.12/dist-packages (from torch->pgmpy) (3.25.1)\n",
+            "Requirement already satisfied: typing-extensions>=4.10.0 in /usr/local/lib/python3.12/dist-packages (from torch->pgmpy) (4.15.0)\n",
+            "Requirement already satisfied: setuptools in /usr/local/lib/python3.12/dist-packages (from torch->pgmpy) (75.2.0)\n",
+            "Requirement already satisfied: sympy>=1.13.3 in /usr/local/lib/python3.12/dist-packages (from torch->pgmpy) (1.14.0)\n",
+            "Requirement already satisfied: jinja2 in /usr/local/lib/python3.12/dist-packages (from torch->pgmpy) (3.1.6)\n",
+            "Requirement already satisfied: fsspec>=0.8.5 in /usr/local/lib/python3.12/dist-packages (from torch->pgmpy) (2025.3.0)\n",
+            "Requirement already satisfied: threadpoolctl>=3.1.0 in /usr/local/lib/python3.12/dist-packages (from scikit-learn->pgmpy) (3.6.0)\n",
+            "Requirement already satisfied: patsy>=0.5.6 in /usr/local/lib/python3.12/dist-packages (from statsmodels->pgmpy) (1.0.2)\n",
+            "Requirement already satisfied: packaging>=21.3 in /usr/local/lib/python3.12/dist-packages (from statsmodels->pgmpy) (26.0)\n",
+            "Requirement already satisfied: six>=1.5 in /usr/local/lib/python3.12/dist-packages (from python-dateutil>=2.8.2->pandas->pgmpy) (1.17.0)\n",
+            "Requirement already satisfied: mpmath<1.4,>=1.1.0 in /usr/local/lib/python3.12/dist-packages (from sympy>=1.13.3->torch->pgmpy) (1.3.0)\n",
+            "Requirement already satisfied: MarkupSafe>=2.0 in /usr/local/lib/python3.12/dist-packages (from jinja2->torch->pgmpy) (3.0.3)\n",
+            "Downloading pgmpy-1.0.0-py3-none-any.whl (2.0 MB)\n",
+            "\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m2.0/2.0 MB\u001b[0m \u001b[31m12.9 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[?25hDownloading pyro_ppl-1.9.1-py3-none-any.whl (755 kB)\n",
+            "\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m756.0/756.0 kB\u001b[0m \u001b[31m14.6 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[?25hDownloading pyro_api-0.1.2-py3-none-any.whl (11 kB)\n",
+            "Installing collected packages: pyro-api, pyro-ppl, pgmpy\n",
+            "Successfully installed pgmpy-1.0.0 pyro-api-0.1.2 pyro-ppl-1.9.1\n"
+          ]
+        }
+      ],
+      "source": [
+        "!pip install pgmpy"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from pgmpy.models import BayesianNetwork"
+      ],
+      "metadata": {
+        "id": "hmDrN9uEk_qw"
+      },
+      "execution_count": 2,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from pgmpy.models import DiscreteBayesianNetwork"
+      ],
+      "metadata": {
+        "id": "e0FUAI3ElG9v"
+      },
+      "execution_count": 3,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "model = DiscreteBayesianNetwork([\n",
+        "    ('Burglary', 'Alarm'),\n",
+        "    ('Earthquake', 'Alarm'),\n",
+        "    ('Alarm', 'JohnCalls'),\n",
+        "    ('Alarm', 'MaryCalls')\n",
+        "])"
+      ],
+      "metadata": {
+        "id": "hzYJILd1lMef"
+      },
+      "execution_count": 4,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!pip install pgmpy\n",
+        "\n",
+        "from pgmpy.models import DiscreteBayesianNetwork\n",
+        "from pgmpy.factors.discrete import TabularCPD\n",
+        "from pgmpy.inference import VariableElimination\n",
+        "\n",
+        "model = DiscreteBayesianNetwork([\n",
+        "    ('Burglary','Alarm'),\n",
+        "    ('Earthquake','Alarm'),\n",
+        "    ('Alarm','JohnCalls'),\n",
+        "    ('Alarm','MaryCalls')\n",
+        "])\n",
+        "\n",
+        "cpd_burglary = TabularCPD('Burglary',2,[[0.999],[0.001]])\n",
+        "cpd_earthquake = TabularCPD('Earthquake',2,[[0.998],[0.002]])\n",
+        "\n",
+        "cpd_alarm = TabularCPD('Alarm',2,\n",
+        "                       [[0.999,0.71,0.06,0.05],\n",
+        "                        [0.001,0.29,0.94,0.95]],\n",
+        "                       evidence=['Burglary','Earthquake'],\n",
+        "                       evidence_card=[2,2])\n",
+        "\n",
+        "cpd_john = TabularCPD('JohnCalls',2,\n",
+        "                      [[0.95,0.10],\n",
+        "                       [0.05,0.90]],\n",
+        "                      evidence=['Alarm'],\n",
+        "                      evidence_card=[2])\n",
+        "\n",
+        "cpd_mary = TabularCPD('MaryCalls',2,\n",
+        "                      [[0.99,0.30],\n",
+        "                       [0.01,0.70]],\n",
+        "                      evidence=['Alarm'],\n",
+        "                      evidence_card=[2])\n",
+        "\n",
+        "model.add_cpds(cpd_burglary,cpd_earthquake,cpd_alarm,cpd_john,cpd_mary)\n",
+        "\n",
+        "print(\"Model valid:\",model.check_model())\n",
+        "\n",
+        "infer = VariableElimination(model)\n",
+        "\n",
+        "result = infer.query(variables=['Burglary'],\n",
+        "                     evidence={'JohnCalls':1,'MaryCalls':1})\n",
+        "\n",
+        "print(result)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "IPjPJ6e3lPmg",
+        "outputId": "7d1507d6-1244-4b15-a327-c61c9bda0dc4"
+      },
+      "execution_count": 5,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Requirement already satisfied: pgmpy in /usr/local/lib/python3.12/dist-packages (1.0.0)\n",
+            "Requirement already satisfied: networkx in /usr/local/lib/python3.12/dist-packages (from pgmpy) (3.6.1)\n",
+            "Requirement already satisfied: numpy in /usr/local/lib/python3.12/dist-packages (from pgmpy) (2.0.2)\n",
+            "Requirement already satisfied: scipy in /usr/local/lib/python3.12/dist-packages (from pgmpy) (1.16.3)\n",
+            "Requirement already satisfied: scikit-learn in /usr/local/lib/python3.12/dist-packages (from pgmpy) (1.6.1)\n",
+            "Requirement already satisfied: pandas in /usr/local/lib/python3.12/dist-packages (from pgmpy) (2.2.2)\n",
+            "Requirement already satisfied: torch in /usr/local/lib/python3.12/dist-packages (from pgmpy) (2.10.0+cpu)\n",
+            "Requirement already satisfied: statsmodels in /usr/local/lib/python3.12/dist-packages (from pgmpy) (0.14.6)\n",
+            "Requirement already satisfied: tqdm in /usr/local/lib/python3.12/dist-packages (from pgmpy) (4.67.3)\n",
+            "Requirement already satisfied: joblib in /usr/local/lib/python3.12/dist-packages (from pgmpy) (1.5.3)\n",
+            "Requirement already satisfied: opt-einsum in /usr/local/lib/python3.12/dist-packages (from pgmpy) (3.4.0)\n",
+            "Requirement already satisfied: pyro-ppl in /usr/local/lib/python3.12/dist-packages (from pgmpy) (1.9.1)\n",
+            "Requirement already satisfied: python-dateutil>=2.8.2 in /usr/local/lib/python3.12/dist-packages (from pandas->pgmpy) (2.9.0.post0)\n",
+            "Requirement already satisfied: pytz>=2020.1 in /usr/local/lib/python3.12/dist-packages (from pandas->pgmpy) (2025.2)\n",
+            "Requirement already satisfied: tzdata>=2022.7 in /usr/local/lib/python3.12/dist-packages (from pandas->pgmpy) (2025.3)\n",
+            "Requirement already satisfied: pyro-api>=0.1.1 in /usr/local/lib/python3.12/dist-packages (from pyro-ppl->pgmpy) (0.1.2)\n",
+            "Requirement already satisfied: filelock in /usr/local/lib/python3.12/dist-packages (from torch->pgmpy) (3.25.1)\n",
+            "Requirement already satisfied: typing-extensions>=4.10.0 in /usr/local/lib/python3.12/dist-packages (from torch->pgmpy) (4.15.0)\n",
+            "Requirement already satisfied: setuptools in /usr/local/lib/python3.12/dist-packages (from torch->pgmpy) (75.2.0)\n",
+            "Requirement already satisfied: sympy>=1.13.3 in /usr/local/lib/python3.12/dist-packages (from torch->pgmpy) (1.14.0)\n",
+            "Requirement already satisfied: jinja2 in /usr/local/lib/python3.12/dist-packages (from torch->pgmpy) (3.1.6)\n",
+            "Requirement already satisfied: fsspec>=0.8.5 in /usr/local/lib/python3.12/dist-packages (from torch->pgmpy) (2025.3.0)\n",
+            "Requirement already satisfied: threadpoolctl>=3.1.0 in /usr/local/lib/python3.12/dist-packages (from scikit-learn->pgmpy) (3.6.0)\n",
+            "Requirement already satisfied: patsy>=0.5.6 in /usr/local/lib/python3.12/dist-packages (from statsmodels->pgmpy) (1.0.2)\n",
+            "Requirement already satisfied: packaging>=21.3 in /usr/local/lib/python3.12/dist-packages (from statsmodels->pgmpy) (26.0)\n",
+            "Requirement already satisfied: six>=1.5 in /usr/local/lib/python3.12/dist-packages (from python-dateutil>=2.8.2->pandas->pgmpy) (1.17.0)\n",
+            "Requirement already satisfied: mpmath<1.4,>=1.1.0 in /usr/local/lib/python3.12/dist-packages (from sympy>=1.13.3->torch->pgmpy) (1.3.0)\n",
+            "Requirement already satisfied: MarkupSafe>=2.0 in /usr/local/lib/python3.12/dist-packages (from jinja2->torch->pgmpy) (3.0.3)\n",
+            "Model valid: True\n",
+            "+-------------+-----------------+\n",
+            "| Burglary    |   phi(Burglary) |\n",
+            "+=============+=================+\n",
+            "| Burglary(0) |          0.7158 |\n",
+            "+-------------+-----------------+\n",
+            "| Burglary(1) |          0.2842 |\n",
+            "+-------------+-----------------+\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
